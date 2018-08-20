@@ -1,0 +1,36 @@
+storage: ./test-storage1
+
+max_users: 2
+
+web:
+  enable: true
+  title: verdaccio-gitlab-server-1
+
+auth:
+  gitlab:
+    url: http://localhost:50080/
+    authCache:
+      enabled: true
+      ttl: 300
+    publish: $maintainer
+
+uplinks:
+  express:
+    url: http://localhost:55550/
+    timeout: 100ms
+
+logs:
+  - { type: stdout, format: pretty, level: trace }
+
+packages:
+  '@test/*':
+    access: $all
+    publish: $all
+    proxy: express
+
+  '*':
+    access: test $anonymous
+    publish: test $anonymous
+
+# expose internal methods
+_debug: true
