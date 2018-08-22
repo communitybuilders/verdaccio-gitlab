@@ -1,18 +1,31 @@
-storage: /verdaccio/storage/data
+#
+# SocialEngineers Verdaccio config file
+# GitLab integration config inspired by https://github.com/snics/docker-verdaccio-gitlab/blob/1d08f3a062e894526da72c81077780222410fddf/config.yaml
+#
+# Do not configure host and port under `listen` in this file
+# as it will be ignored when using docker.
+# see https://github.com/verdaccio/verdaccio/blob/master/wiki/docker.md#docker-and-custom-port-configuration
+#
+# Look here for more config file examples:
+# https://github.com/verdaccio/verdaccio/tree/master/conf
+#
 
+# path to a directory with all packages
+storage: /verdaccio/storage/data
+# path to a directory with plugins to include
 plugins: /verdaccio/plugins
 
-listen:
-  - 0.0.0.0:4873
+web:
+  # WebUI is enabled as default
+  enable: true
+  title: Verdaccio - SocialEngineers
 
 auth:
   gitlab:
-    url: http://gitlab
-    authCache:
-      enabled: true
-      ttl: 300
+    url: https://code.farsite.com.au
     publish: $maintainer
 
+# a list of other known repositories we can talk to
 uplinks:
   npmjs:
     url: https://registry.npmjs.org/
@@ -20,17 +33,33 @@ uplinks:
 packages:
   '@*/*':
     # scoped packages
-    access: $all
+    access: $authenticated
     publish: $authenticated
     proxy: npmjs
     gitlab: true
 
   '**':
-    access: $all
-    publish: $authenticated
+    # allow all users (including non-authenticated users) to read all packages
+    #
+    # you can specify usernames/groupnames (depending on your auth plugin)
+    # and three keywords: "$all", "$anonymous", "$authenticated"
+    access: $authenticated
+
+    # allow all known users to publish packages
+    # (anyone can register by default, remember?)
+    #    publish: $authenticated
+
+    # if package is not available locally, proxy requests to 'npmjs' registry
     proxy: npmjs
+
     gitlab: true
 
+# To use `npm audit` uncomment the following section
+middlewares:
+  audit:
+    enabled: true
+
+# log settings
 logs:
-  - { type: stdout, format: pretty, level: info }
-  #- {type: file, path: verdaccio.log, level: info}
+- {type: stdout, format: pretty, level: http}
+#- {type: file, path: verdaccio.log, level: info}
