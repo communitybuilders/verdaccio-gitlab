@@ -10,6 +10,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - verdaccio-storage:/verdaccio/storage
+      - ./conf/docker.yaml:/verdaccio/conf/config.yaml
 
 volumes:
   verdaccio-storage:

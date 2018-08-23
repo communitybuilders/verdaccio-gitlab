@@ -59,6 +59,9 @@ middlewares:
   audit:
     enabled: true
 
+# We need this because our URL is "https://code.farsite.com.au/verdaccio"
+url_prefix: /verdaccio
+
 # log settings
 logs:
 - {type: stdout, format: pretty, level: http}
