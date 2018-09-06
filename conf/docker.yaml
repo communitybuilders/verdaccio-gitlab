@@ -31,9 +31,16 @@ uplinks:
     url: https://registry.npmjs.org/
 
 packages:
-  '@*/*':
-    # scoped packages
+  '@cbar/*':
+    # @cbar scoped packages
     access: $authenticated
+    publish: $authenticated
+    proxy: npmjs
+    gitlab: true
+
+  '@*/*':
+    # All other scoped packages
+    access: $all
     publish: $authenticated
     proxy: npmjs
     gitlab: true
@@ -43,7 +50,7 @@ packages:
     #
     # you can specify usernames/groupnames (depending on your auth plugin)
     # and three keywords: "$all", "$anonymous", "$authenticated"
-    access: $authenticated
+    access: $all
 
     # allow all known users to publish packages
     # (anyone can register by default, remember?)
@@ -59,8 +66,8 @@ middlewares:
   audit:
     enabled: true
 
-# We need this because our URL is "https://code.farsite.com.au/verdaccio"
-url_prefix: /verdaccio
+# We need this because our URL is "https://code.farsite.com.au/verdaccio/"
+url_prefix: /verdaccio/
 
 # log settings
 logs:
