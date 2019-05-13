@@ -66,8 +66,8 @@ middlewares:
   audit:
     enabled: true
 
-# We need this because our URL is "https://code.farsite.com.au/verdaccio/"
-url_prefix: /verdaccio/
+# Our registry can be accessed at "https://npm.communitybuildar.com/"
+url_prefix: ""
 
 # log settings
 logs:
