@@ -22,7 +22,7 @@ web:
 
 auth:
   gitlab:
-    url: https://code.farsite.com.au
+    url: https://code.communitybuildar.com
     publish: $maintainer
 
 # a list of other known repositories we can talk to
