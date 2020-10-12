@@ -3,6 +3,8 @@ version: '3'
 services:
   verdaccio:
     restart: always
+    environment:
+      - NODE_OPTIONS=--max-http-header-size=64000
     ports:
       - '33333:4873'
     build:
